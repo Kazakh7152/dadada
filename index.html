@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Досье — Панцырь | GFL2-styled — расширенное</title>
+  <style>
+    :root{
+      --bg:#071018;
+      --panel:#0e1620;
+      --card:#0f1a24;
+      --accent:#6ad0ff;
+      --accent-2:#ffd36b;
+      --muted:#9aa6b2;
+      --glass: rgba(255,255,255,0.03);
+      --card-radius:14px;
+      --mono: 'Segoe UI', Roboto, Arial, sans-serif;
+      --glass-2: rgba(255,255,255,0.02);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;background:
+      radial-gradient(800px 400px at 10% 10%, rgba(107,160,200,0.03), transparent 10%),
+      linear-gradient(180deg,#051018 0%, #07121a 60%), var(--bg); color:#e6eef6; font-family:var(--mono);}
+    .app{max-width:1200px;margin:28px auto;padding:20px;display:grid;grid-template-columns:320px 1fr;gap:20px;}
+    /* SIDEBAR */
+    .sidebar{background:linear-gradient(180deg,var(--panel), rgba(5,10,14,0.6));border-radius:14px;padding:18px;border:1px solid rgba(255,255,255,0.02);min-height:520px;box-shadow:0 14px 40px rgba(2,6,10,0.7)}
+    .brand{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+    .logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#5dd0a5);display:flex;align-items:center;justify-content:center;font-weight:800;color:#032230}
+    .brand h1{font-size:18px;margin:0}
+    .meta{color:var(--muted);font-size:13px;margin-top:6px}
+    .nav{margin-top:12px;display:flex;flex-direction:column;gap:8px}
+    .nav button{display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;background:transparent;border:1px solid transparent;color:#cfefff;cursor:pointer;transition:all .16s}
+    .nav button svg{width:18px;height:18px;opacity:0.9}
+    .nav button:hover{transform:translateX(6px);background:rgba(255,255,255,0.012)}
+    .nav button.active{background:linear-gradient(90deg, rgba(106,208,255,0.04), rgba(255,211,107,0.02));border:1px solid rgba(123,208,255,0.06)}
+    .footer-note{margin-top:14px;font-size:12px;color:var(--muted)}
+    .export-btn{margin-top:14px;padding:10px;border-radius:10px;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#052230;border:none;cursor:pointer;font-weight:600}
+    /* MAIN CONTENT */
+    .panel{background:linear-gradient(180deg, rgba(255,255,255,0.012), rgba(255,255,255,0.01));border-radius:14px;padding:20px;min-height:520px;overflow:auto;border:1px solid rgba(255,255,255,0.02)}
+    .header{display:flex;gap:16px;align-items:center;margin-bottom:14px}
+    .avatar{width:92px;height:92px;border-radius:12px;background:linear-gradient(135deg,#111920,#081218);display:flex;align-items:center;justify-content:center;font-weight:900;color:var(--accent-2);font-size:28px;border:1px solid rgba(255,255,255,0.02)}
+    .title h2{margin:0;font-size:20px}
+    .title p{margin:6px 0 0 0;color:var(--muted);font-size:13px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:14px;border-radius:12px;margin-bottom:12px;border:1px solid rgba(255,255,255,0.016)}
+    .muted{color:var(--muted);font-size:13px}
+    .timeline{display:flex;flex-direction:column;gap:10px}
+    .event{display:flex;gap:12px;align-items:flex-start}
+    .dot{width:12px;height:12px;border-radius:50%;background:var(--accent);margin-top:6px;box-shadow:0 8px 20px rgba(106,208,255,0.06)}
+    .warning{color:#ffb0a6;background:rgba(255,176,166,0.04);padding:10px;border-radius:8px;border:1px solid rgba(255,176,166,0.06);font-size:13px}
+    /* Chronicle */
+    .chronicle-list{display:flex;flex-direction:column;gap:10px}
+    .chronicle-item{display:grid;grid-template-columns:120px 1fr;gap:12px;padding:12px;border-radius:10px;background:var(--card);border:1px solid rgba(255,255,255,0.02)}
+    .chronicle-date{font-weight:700;color:var(--accent);align-self:center}
+    /* small details */
+    .tag{display:inline-block;padding:6px 8px;border-radius:8px;background:rgba(255,255,255,0.02);font-size:13px;color:var(--muted);border:1px solid rgba(255,255,255,0.01)}
+    .muted-2{color:rgba(230,238,246,0.8);font-size:14px}
+    /* responsive */
+    @media(max-width:920px){.app{grid-template-columns:1fr;padding:12px}.sidebar{order:2}.panel{order:1}}
+    /* print */
+    @media print{
+      body{background:white;color:black}
+      .sidebar,.export-btn{display:none}
+      .panel{border:none;box-shadow:none}
+    }
+  </style>
+</head>
+<body>
+  <div class="app" role="main" aria-label="Досье Панцырь — расширенное">
+    <aside class="sidebar" aria-hidden="false">
+      <div class="brand">
+        <div class="logo">PZ</div>
+        <div>
+          <h1>ДОСЬЕ — Панцырь</h1>
+          <div class="meta">Режим: художественный документ — без оперативных деталей</div>
+        </div>
+      </div>
+
+      <nav class="nav" role="tablist" aria-label="Навигация">
+        <button class="tab-btn active" data-tab="doc" role="tab" aria-selected="true" title="Главная">
+          <!-- icon: document -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M7 3h7l5 5v11a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z" stroke-width="1.2"/></svg>
+          <span>Документ</span>
+        </button>
+
+        <button class="tab-btn" data-tab="profile" role="tab" title="Досье Панцыря">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="8" r="3" stroke-width="1.2"/><path d="M6 20c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke-width="1.2"/></svg>
+          <span>Досье</span>
+        </button>
+
+        <button class="tab-btn" data-tab="cradle" role="tab" title="Колыбель — легенда">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2v6" stroke-width="1.2"/><path d="M5 12h14" stroke-width="1.2"/></svg>
+          <span>«Колыбель»</span>
+        </button>
+
+        <button class="tab-btn" data-tab="motives" role="tab" title="Мотивы и цели">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12h18" stroke-width="1.2"/><path d="M6 6l6 6-6 6" stroke-width="1.2"/></svg>
+          <span>Мотивы</span>
+        </button>
+
+        <button class="tab-btn" data-tab="target" role="tab" title="Вымышленный представитель">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="18" height="18" rx="2" stroke-width="1.2"/></svg>
+          <span>Мишень</span>
+        </button>
+
+        <button class="tab-btn" data-tab="chronicle" role="tab" title="Хроника событий">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 8h18M7 4h10M7 20h10M3 12h18" stroke-width="1.2"/></svg>
+          <span>Хроника</span>
+        </button>
+      </nav>
+
+      <div class="footer-note">
+        <div class="tag">Внимание: художественный вымысел</div>
+        <p style="margin:8px 0 0 0;color:var(--muted);font-size:13px">Документ не содержит инструкций по вреду. Используйте материал как источники сюжета и атмосферы.</p>
+      </div>
+
+      <button class="export-btn" id="exportPdf">Экспорт → PDF</button>
+    </aside>
+
+    <main class="panel" id="mainPanel">
+      <!-- MAIN: Document -->
+      <section id="doc" class="view" style="">
+        <div class="header">
+          <div class="avatar" aria-hidden="true">PZ</div>
+          <div class="title">
+            <h2>Панцырь — сводка и аналитическое досье</h2>
+            <p class="muted">Стилизовано под GFL2 — игровая атмосфера, явная пометка о вымысле</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="muted">Краткая сводка</div>
+          <p class="muted-2">Панцырь (условно — Александр Резников) — ветеран, полевой командир и политик в тени. В этом документе собраны художественные справки: биография, ключевые вехи, легенда о «Колыбели» и персональные связи. Никаких рабочих инструкций не приводится.</p>
+        </div>
+
+        <div class="card">
+          <h3>Навигация по документу</h3>
+          <p class="muted">Используйте слева вкладки для перехода между разделами. Внизу доступна хроника вымышленных событий, а сверху — кнопка Экспорт → PDF для печати/сохранения.</p>
+        </div>
+
+        <div class="card">
+          <h3>Атмосфера</h3>
+          <p class="muted-2">Дизайн — тёмный, тактический, с техно-элементами и неброскими визуальными эффектами. Материал предназначен для сценаристов, гейм-дизайнеров и авторов.</p>
+        </div>
+      </section>
+
+      <!-- PROFILE -->
+      <section id="profile" class="view" style="display:none">
+        <div class="card">
+          <h3>Биография — Панцырь</h3>
+          <p class="muted-2"><strong>Имя (условно):</strong> Александр «Панцырь» Резников. Родился в индустриальном регионе, прошёл тяжёлую школу локальных конфликтов и частных операций. В ранние годы — найм и разведывательная подготовка; позже — командир боевого отряда.</p>
+          <p class="muted-2">Панцырь был правой рукой Адьютанта, участвовал в организации и наборе кадров. Со временем автономно сформировал собственную структуру — сочетание военных, технократов и бывших чиновников. Его публичная риторика концентрируется на «восстановлении порядка» и «эффективной вертикали власти».</p>
+        </div>
+
+        <div class="card">
+          <h4>Ключевые вехи</h4>
+          <div class="timeline">
+            <div class="event"><div class="dot"></div><div class="ev-content"><strong>Ранние 2000-е:</strong> частные миссии в горячих точках.</div></div>
+            <div class="event"><div class="dot"></div><div class="ev-content"><strong>2011—2016:</strong> возглавлял мелкие, но дисциплинированные отряды.</div></div>
+            <div class="event"><div class="dot"></div><div class="ev-content"><strong>2017—2022:</strong> правая рука Адьютанта; участие в политических и пропагандистских операциях (в сюжете).</div></div>
+            <div class="event"><div class="dot"></div><div class="ev-content"><strong>2023—наст. вр.:</strong> формирование собственного ядра — «армии Панцыря»; интенсивная медийная кампания.</div></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h4>Характер и образ</h4>
+          <p class="muted-2">Панцырь — человек порядка: холодный расчёт, минимализм в словах и жёсткая дисциплина в действиях. В художественной модели он — идеолог авторитаризма, облечённый в милитаристскую эстетику.</p>
+        </div>
+      </section>
+
+      <!-- CRADLE -->
+      <section id="cradle" class="view" style="display:none">
+        <div class="card">
+          <h3>«Колыбель» — легенда (без деталей)</h3>
+          <p class="muted-2">«Колыбель» в мифологии вокруг Панцыря — метафора таинственной инициативы, которую одни описывают как «систему влияния», другие — как «политический артефакт». В документе она остаётся исключительно художественным приёмом и не сопровождается техническими или практическими объяснениями.</p>
+        </div>
+
+        <div class="card">
+          <h4>Роль мифа в политике</h4>
+          <p class="muted-2">Мифы служат мобилизации: приписывая программе мистические свойства, лидеры получают инструмент символического влияния. В тексте «Колыбель» — способ показать, как легенда усиливает харизму.</p>
+        </div>
+      </section>
+
+      <!-- MOTIVES -->
+      <section id="motives" class="view" style="display:none">
+        <div class="card">
+          <h3>Мотивы и цели (анализ)</h3>
+          <p class="muted-2">Панцырь стремится к централизации и контролю, в художественном ключе — ради «стабильности» и «очищения». Это сочетание личной амбиции, военных предпочтений и идеологической риторики. В реальном мире подобные сочетания дают сложные последствия; в документе это рассмотрено через призму персонажа, без инструкций.</p>
+        </div>
+
+        <div class="card">
+          <h4>Аналитический комментарий</h4>
+          <p class="muted-2">Политические мифы и харизма порождают приверженцев; однако управление — это всегда компромисс между ресурсами, легитимностью и внешними факторами. Панцырь в сюжете демонстрирует риски авторитарного популизма.</p>
+        </div>
+      </section>
+
+      <!-- TARGET -->
+      <section id="target" class="view" style="display:none">
+        <div class="card">
+          <h3>Вымышленный представитель НСССР в Белоруссии</h3>
+          <p class="muted-2"><strong>Имя:</strong> Игорь Анатольевич Корсаков. <strong>Родился:</strong> 1971. Дипломат по образованию, карьера в центральных структурах, назначен представителем НСССР в Белоруссии (в художественном сюжете). Известен осторожностью и акцентом на стабильности.</p>
+        </div>
+
+        <div class="card">
+          <h4>Биографические вехи (вымысел)</h4>
+          <div class="timeline">
+            <div class="event"><div class="dot"></div><div class="ev-content"><strong>1994:</strong> начало дипломатической карьеры.</div></div>
+            <div class="event"><div class="dot"></div><div class="ev-content"><strong>2005:</strong> руководящие посты в центральных органах.</div></div>
+            <div class="event"><div class="dot"></div><div class="ev-content"><strong>2018:</strong> назначение представителем НСССР в Республике Беларусь (в сюжете).</div></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h4>Роль в сюжете</h4>
+          <p class="muted-2">Корсаков служит символом существующей бюрократической власти — по этой причине он становится ключевой фигурой в конфликтах повествования. Любые упоминания о покушениях в тексте — исключительно как сюжетные повороты, без детальных описаний.</p>
+        </div>
+      </section>
+
+      <!-- CHRONICLE -->
+      <section id="chronicle" class="view" style="display:none">
+        <div class="card">
+          <h3>Хроника событий (вымысел)</h3>
+          <p class="muted-2">Собранные отчёты и заметки по ключевым эпизодам — художественная реконструкция, оформленная как сводка событий. Даты указаны для сюжетной хронологии.</p>
+        </div>
+
+        <div class="chronicle-list">
+          <div class="chronicle-item">
+            <div class="chronicle-date">12 янв 2023</div>
+            <div>
+              <strong>Появление Панцыря в публичной повестке</strong>
+              <p class="muted-2">Первые заметные выступления в локальных изданиях и ролики в сети. Общая риторика — «порядок любой ценой». Наблюдается рост числа добровольцев, объединённых вокруг символики.</p>
+            </div>
+          </div>
+
+          <div class="chronicle-item">
+            <div class="chronicle-date">03 июн 2024</div>
+            <div>
+              <strong>Формирование ядра</strong>
+              <p class="muted-2">Образованы мобильные группы, которые действуют автономно; формируется сеть контактов с бывшими функционерами. Вокруг «Колыбели» усиливается мифологический фон.</p>
+            </div>
+          </div>
+
+          <div class="chronicle-item">
+            <div class="chronicle-date">29 мар 2025</div>
+            <div>
+              <strong>Акцент на дипломатическую цель</strong>
+              <p class="muted-2">В сюжетной линии Панцырь объявляет о «спецоперации по демонтажу коррупционных схем» — формулировка носит больше политический характер в пропаганде, чем реальную методологию.</p>
+            </div>
+          </div>
+
+          <div class="chronicle-item">
+            <div class="chronicle-date">08 сен 2025</div>
+            <div>
+              <strong>Эскалация в медиа</strong>
+              <p class="muted-2">Интенсивные кампании в трубах информации, провокационные публикации и усиление символики. Хроника фиксирует рост напряжения — всё в рамках художественного сюжета.</p>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+    // Вкладки
+    (function(){
+      const tabs = document.querySelectorAll('.tab-btn');
+      const views = document.querySelectorAll('.view');
+      function activateTab(tab){
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        const id = tab.getAttribute('data-tab');
+        views.forEach(v => v.id === id ? v.style.display = '' : v.style.display = 'none');
+        // accessibility
+        tabs.forEach(t => t.setAttribute('aria-selected', t === tab));
+      }
+      tabs.forEach((t,i)=> t.addEventListener('click', ()=> activateTab(t)));
+      // keyboard navigation
+      let idx = 0;
+      document.addEventListener('keydown', e=>{
+        if(e.key === 'ArrowRight'){ idx = (idx+1) % tabs.length; activateTab(tabs[idx]); tabs[idx].focus(); }
+        if(e.key === 'ArrowLeft'){ idx = (idx-1 + tabs.length) % tabs.length; activateTab(tabs[idx]); tabs[idx].focus(); }
+      });
+      // init
+      activateTab(document.querySelector('.tab-btn.active'));
+    })();
+
+    // Экспорт в PDF (печать)
+    document.getElementById('exportPdf').addEventListener('click', ()=>{
+      // краткое предупреждение и затем печать
+      const ok = confirm('Экспортировать текущий документ в PDF через диалог печати? (будет напечатана текущая видимая секция)');
+      if(!ok) return;
+      window.print();
+    });
+
+    // Улучшение: при загрузке помечаем хеш (если есть)
+    (function(){
+      const hash = location.hash.replace('#','');
+      if(hash){
+        const tab = document.querySelector('.tab-btn[data-tab="'+hash+'"]');
+        if(tab) tab.click();
+      }
+    })();
+  </script>
+</body>
+</html>
